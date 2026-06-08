@@ -1,4 +1,4 @@
-{% set version = "1.1.0" %}
+{% set version = "1.1.0.post13" %}
 
 package:
   name: nasvar
@@ -6,7 +6,7 @@ package:
 
 source:
   git_url: https://github.com/jwanglab/nasvar.git
-  git_rev: eb285440957124d1d3c65aee0ba0aa291726313a
+  git_rev: e1e31a2fbc752f6d85a8f86283e20b575066a6f1
 
 build:
   number: 0
