@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euxo pipefail
 
-# bioconda/conda-forge policy: bundle the licenses of all Rust
+# Good practice (and a bioconda/conda-forge requirement): bundle the licenses of all Rust dependencies
 # dependencies. Generates THIRDPARTY.yml in $SRC_DIR, referenced by
 # license_file in meta.yaml.
 cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
