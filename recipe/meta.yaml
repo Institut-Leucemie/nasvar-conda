@@ -1,0 +1,36 @@
+{% set version = "1.1.0" %}
+
+package:
+  name: nasvar
+  version: {{ version }}
+
+source:
+  url: https://github.com/jwanglab/nasvar/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: 6bdf329766a2d1fe6ae40006d02dd7f827e8f6c057df72e443348e1906ab7a37
+
+build:
+  number: 0
+
+requirements:
+  build:
+    - {{ compiler('rust') }}
+    - {{ compiler('c') }}
+    - {{ stdlib('c') }}
+    - cargo-bundle-licenses
+
+test:
+  commands:
+    - nasvar --version
+    - aggregate --help
+
+about:
+  home: https://github.com/jwanglab/nasvar
+  summary: "Variant caller for tumor-only long-read (Oxford Nanopore) sequencing"
+  license: LicenseRef-UNC-NonCommercial
+  license_file:
+    - LICENSE
+    - THIRDPARTY.yml
+
+extra:
+  recipe-maintainers:
+    - drosofff
