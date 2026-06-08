@@ -1,0 +1,19 @@
+# Build artifacts — never commit a compiled package to a public repo.
+# Publishing a non-commercial binary here would amount to redistribution.
+*.conda
+*.tar.bz2
+conda-bld/
+
+# Downloaded upstream source (pulled at build time, not versioned here)
+*.tar.gz
+*.tgz
+
+# Rust build tree (if building locally outside conda-build)
+target/
+
+# Python / conda cruft
+__pycache__/
+*.pyc
+
+# OS / editor
+.DS_Store
