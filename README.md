@@ -25,26 +25,27 @@ upstream source and an installed Galaxy tool.
 ```
   jwanglab/nasvar  @ v1.1.0          upstream source (UNC non-commercial license)
           │
-          │   pinned by sha256 in recipe/meta.yaml      ← root of trust
-          ▼
-  recipe/   (this repository — GPL3)   build instructions, no binary
+          │   pinned by commit SHA in recipe/meta.yaml   <- root of trust
+          v
+  recipe/   (this repository -- GPL3)  build instructions, no binary
           │
           │   conda build recipe/
-          ▼
-  nasvar-<version>-*.conda            local artifact — never redistributed
+          v
+  nasvar-<version>-*.conda            local artifact -- never redistributed
           │
           │   served via a local conda channel
-          ▼
+          v
   Galaxy  <requirement type="package">nasvar</requirement>
           │
           │   resolved with conda_use_local: true
-          ▼
+          v
   nasvar tool, version-locked, in the Galaxy server
 ```
 
-Every link is inspectable: the recipe pins the exact upstream release by `sha256`, the
-build is reproducible from source on any machine, and the resulting artifact is
-version-locked.
+Every link is inspectable: the recipe pins the exact upstream commit (a git commit SHA is
+itself the content hash of the whole source tree, so the pinned source is reproducible by
+construction), the build is reproducible from source on any machine, and the resulting
+artifact is version-locked.
 
 ## Building the package
 
@@ -57,16 +58,17 @@ conda build recipe/
 ```
 
 `conda-build` creates an isolated environment, pulls the Rust toolchain and compilers from
-conda-forge (as declared in the recipe), downloads the pinned upstream source, compiles
-nasvar from it, runs the test phase, and writes the artifact to:
+conda-forge (as declared in the recipe), clones the upstream repository at the commit
+pinned in `recipe/meta.yaml`, compiles nasvar from it, runs the test phase, and writes the
+artifact to:
 
 ```
 <conda-root>/conda-bld/linux-64/nasvar-<version>-*.conda
 ```
 
-Expect a few minutes for the Rust + jemalloc compilation. The build verifies the
-downloaded source against the `sha256` pinned in `recipe/meta.yaml`; a mismatch aborts the
-build by design.
+Expect a few minutes for the Rust + jemalloc compilation. Because the source is pinned to a
+git commit SHA, the build always compiles exactly that revision: the commit SHA is the
+content hash of the whole tree, so the upstream input is anchored by construction.
 
 ## Using it in Galaxy
 
