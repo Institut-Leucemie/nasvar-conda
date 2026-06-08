@@ -27,7 +27,7 @@ upstream source and an installed Galaxy tool.
           │
           │   pinned by sha256 in recipe/meta.yaml      ← root of trust
           ▼
-  recipe/   (this repository — MIT)   build instructions, no binary
+  recipe/   (this repository — GPL3)   build instructions, no binary
           │
           │   conda build recipe/
           ▼
