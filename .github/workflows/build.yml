@@ -1,0 +1,54 @@
+name: build
+
+# Purpose: prove that recipe/ builds — from source, on a clean machine, against
+# conda-forge alone — every time the recipe changes. The green check and the log
+# ARE the auditable artifact. The compiled package is intentionally never published
+# (see the note at the end of the build step).
+
+on:
+  push:
+    paths:
+      - "recipe/**"
+      - ".github/workflows/build.yml"
+  pull_request:
+    paths:
+      - "recipe/**"
+      - ".github/workflows/build.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install Miniforge + conda-build (conda-forge only)
+        run: |
+          curl -fsSL -o miniforge.sh \
+            "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
+          bash miniforge.sh -b -p "$HOME/miniforge3"
+          source "$HOME/miniforge3/etc/profile.d/conda.sh"
+          conda activate base
+          conda install -y conda-build
+          # Auditable proof in the log that the build sees conda-forge only,
+          # no Anaconda 'defaults' channel (Miniforge ships conda-forge only).
+          conda config --show channels
+
+      - name: Build and test the recipe
+        run: |
+          source "$HOME/miniforge3/etc/profile.d/conda.sh"
+          conda activate base
+          conda build recipe/
+          # The built .conda is intentionally NOT uploaded as a workflow artifact.
+          # nasvar is under a non-commercial license; on a public repo, workflow
+          # artifacts are downloadable by anyone, so publishing the compiled binary
+          # here would amount to redistribution. The binary stays local; this job
+          # proves only that the recipe builds and its test phase passes.
