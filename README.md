@@ -86,7 +86,7 @@ companion Galaxy wrapper lives in
 ## Licensing — two distinct licenses
 
 - **This repository** (the recipe: `meta.yaml`, `build.sh`, `conda_build_config.yaml`) is
-  released under the **MIT license**. The recipe is original work and is free to reuse.
+  released under the **GNU GENERAL PUBLIC LICENSE, version 3**. The recipe is original work and is free to reuse.
 - **nasvar itself** is under the **UNC non-commercial license (Ref. 24-0059)**, declared
   in the `license:` field of `recipe/meta.yaml`. This recipe does not contain or
   redistribute nasvar — it builds it from the upstream source at build time. The compiled
