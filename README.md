@@ -23,7 +23,7 @@ upstream source and an installed Galaxy tool.
 ## The packaging chain
 
 ```
-  jwanglab/nasvar  @ v1.1.0          upstream source (UNC non-commercial license)
+  jwanglab/nasvar  @ v1.2.0          upstream source (UNC non-commercial license)
           │
           │   pinned by commit SHA in recipe/meta.yaml   <- root of trust
           v
